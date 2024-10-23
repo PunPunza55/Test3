@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday To Gun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;600&family=Concert+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bara+TH:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            background-color: #f8d3e7;
+            font-family: 'Mali', cursive;
+            text-align: center;
+            margin: 0;
+        }
+        .container {
+            position: absolute;
+            top: 50px;
+            transform: translateY(0);
+        }
+        h1 {
+            color: #06b4eeee;
+            font-size: 4.5em; /* ปรับขนาดเล็กลง */
+            margin: 0;
+            line-height: 1.5;
+            text-shadow: 3px 3px 0px rgb(10, 10, 10); /* เพิ่มเงา 3 มิติ */
+        }
+        .name {
+            font-family: 'Bara TH', sans-serif;
+            font-size: 4.5em; /* ปรับขนาดเล็กลง */
+            color: #06b4eeee;
+            font-weight: 600;
+            margin: -10px 0 0 0;
+            text-shadow: 3px 3px 0px rgb(10, 10, 10); /* เพิ่มเงา 3 มิติ */
+        }
+        .image-container {
+            position: relative;
+            width: 200px;
+            height: 300px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .image-container1 {
+            position: relative;
+            width: 200px;
+            height: 300px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .image-wrapper {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .image-wrapper img {
+            min-width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: pointer; /* เพิ่ม cursor pointer เพื่อให้ผู้ใช้รู้ว่าสามารถคลิกได้ */
+        }
+            /* สไตล์สำหรับ Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* ป้องกันไม่ให้รูปภาพล้นขอบ */
+        }
+
+        .lightbox img {
+            width: 80%;  /* ปรับขนาดความกว้างให้เล็กลง */
+            height: auto; /* รักษาสัดส่วนภาพ */
+            max-width: 50%; /* ขนาดสูงสุดที่อนุญาตให้เท่ากับ 90% */
+            max-height: 50%; /* ขนาดสูงสุดที่อนุญาตให้เท่ากับ 90% */
+            object-fit: contain; /* ทำให้ภาพรักษาสัดส่วนและอยู่ภายในขอบเขต */
+        }
+        .lightbox1 {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* ป้องกันไม่ให้รูปภาพล้นขอบ */
+        }
+
+        .lightbox img1 {
+            width: 80%;  /* ปรับขนาดความกว้างให้เล็กลง */
+            height: auto; /* รักษาสัดส่วนภาพ */
+            max-width: 50%; /* ขนาดสูงสุดที่อนุญาตให้เท่ากับ 90% */
+            max-height: 50%; /* ขนาดสูงสุดที่อนุญาตให้เท่ากับ 90% */
+            object-fit: contain; /* ทำให้ภาพรักษาสัดส่วนและอยู่ภายในขอบเขต */
+        }
+
+        .message-box {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+            margin-top: 20px;
+            font-family: 'Mali', cursive;
+            font-size: 1.3em;
+            max-width: 300px; /* ล็อกความกว้างของกล่อง */
+            word-wrap: break-word; /* ทำให้ข้อความขึ้นบรรทัดใหม่เมื่อเกินขอบ */
+            overflow-wrap: break-word; /* รองรับการตัดคำ */
+            line-height: 1.8; /* เพิ่มความห่างระหว่างบรรทัด */
+            position: relative; /* ทำให้ตำแหน่งไม่ส่งผลกระทบต่อการจัดวางอื่น ๆ */
+            z-index: 0; /* ให้แน่ใจว่าอยู่ข้างหลังปุ่ม */
+        }
+        .message-box1 {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1px;
+            border-radius: 50px;
+            box-shadow: 0 0 10px #06b4eeee;
+            margin: 0 auto; /* ตั้งค่าขอบบนและล่างเป็น 0 และขอบซ้ายขวาให้เป็นอัตโนมัติ */
+            font-family: 'Mali', cursive;
+            font-size: 1.3em;
+            max-width: 300px; /* ล็อกความกว้างของกล่อง */
+            word-wrap: break-word; /* ทำให้ข้อความขึ้นบรรทัดใหม่เมื่อเกินขอบ */
+            overflow-wrap: break-word; /* รองรับการตัดคำ */
+            line-height: 1.8; /* เพิ่มความห่างระหว่างบรรทัด */
+            position: relative; /* ทำให้ตำแหน่งไม่ส่งผลกระทบต่อการจัดวางอื่น ๆ */
+            z-index: 0; /* ให้แน่ใจว่าอยู่ข้างหลังปุ่ม */
+            display: flex; /* ใช้ flexbox เพื่อช่วยจัดตำแหน่ง */
+            justify-content: center; /* จัดแนวเนื้อหาให้กลาง */
+            align-items: center; /* จัดแนวแนวตั้งให้กลาง */
+            display: none;
+        }
+        .memories-zone {
+            font-family: 'Concert One', cursive; /* เปลี่ยนฟอนต์เป็น Concert One */
+            font-size: 2.6em;
+            color: #ff5b5b;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .memories-zone1 {
+            font-family: 'Concert One', cursive; /* เปลี่ยนฟอนต์เป็น Concert One */
+            font-size: 2.6em;
+            color: #06b4eeee;
+            font-weight: bold;
+            margin-top: -20px auto;
+            justify-content: center; /* จัดแนวเนื้อหาให้กลาง */
+            align-items: center; /* จัดแนวแนวตั้งให้กลาง */
+            display: none;
+            text-shadow: 2px 2px 0px rgb(10, 10, 10); /* เพิ่มเงา 3 มิติ */
+        }
+        .namegun-zone {
+            font-family: 'Mali', cursive; /* เปลี่ยนฟอนต์เป็น Mali */
+            font-size: 1.5em;
+            color: #ff5b5b;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .namegun-zone1 {
+            font-family: 'Mali', cursive; /* เปลี่ยนฟอนต์เป็น Mali */
+            font-size: 1.5em;
+            color: #06b4eeee;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .nav-button {
+            position: absolute; /* เปลี่ยนจาก fixed เป็น absolute */
+            top: 50%; /* จัดให้อยู่กลางแนวตั้งของ container */
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 2em;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1; /* ทำให้ปุ่มอยู่เหนือกล่องข้อความ */
+        }
+
+        .nav-button.left {
+            left: 0px; /* จัดให้ปุ่มซ้ายอยู่ที่ขอบซ้ายของ container */
+        }
+
+        .nav-button.right {
+            right: 0px; /* จัดให้ปุ่มขวาอยู่ที่ขอบขวาของ container */
+        }
+        .nav-button1 {
+            position: absolute; /* ใช้ absolute เพื่อให้จัดตำแหน่งได้ */
+            top: 50%; /* จัดให้อยู่กลางแนวตั้งของ container */
+            transform: translateY(-50%); /* ทำให้ปุ่มอยู่กลาง */
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 2em;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1; /* ทำให้ปุ่มอยู่เหนือรูปภาพ */
+            display: none; /* เริ่มต้นไม่แสดง */
+        }
+
+        /* จัดให้ปุ่มซ้ายอยู่ที่ขอบซ้ายของ container */
+        .nav-button.left1 {
+            left: 0px; /* ปรับให้ปุ่มอยู่นอกรูปภาพทางซ้าย */
+            display: none; /* เริ่มต้นไม่แสดง */
+        }
+
+        /* จัดให้ปุ่มขวาอยู่ที่ขอบขวาของ container */
+        .nav-button.right1 {
+            right: 0px; /* ปรับให้ปุ่มอยู่นอกรูปภาพทางขวา */
+            display: none; /* เริ่มต้นไม่แสดง */
+        }
+        .audio-container {
+            margin-top: 0px;
+            padding: 10px;
+            border: 2px solid #06b4eeee;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: inline-block;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+        }
+        .audio-title {
+            font-weight: bold;
+            color: #06b4eeee;
+            margin-bottom: 5px;
+            display: block;
+            font-size: 1.5em; /* ปรับขนาดตัวอักษรชื่อเพลงให้ใหญ่ขึ้น */
+        }
+        .audio-time {
+            position: absolute;
+            right: 10px;
+            top: 30px; /* ปรับให้อยู่ใต้ชื่อเพลง */
+            color: #06b4eeee;
+        }
+        .input-container {
+            margin: 20px 0;
+        }
+        .input-box {
+            width: 60px;
+            font-family: 'Concert One', cursive; /* เปลี่ยนฟอนต์เป็น Concert One */
+            font-size: 2em;
+            color: #06b4eeee;
+            margin: 0 5px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+        }
+        .memories-title {
+            font-size: 2em;
+            color: #06b4eeee;
+            margin-bottom: 10px; /* เพิ่มระยะห่างจากช่องกรอกชื่อ */
+        }
+        .special-message {
+            display: none; /* ซ่อนกล่องข้อความพิเศษไว้ก่อน */
+        }
+        .gift-box {
+            background: url('https://lh5.googleusercontent.com/d/10TwhBhxRqcG0KeY5GXnU2ZkVbyTE9OAi') no-repeat center center;
+            background-size: contain;
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gift-box.opening {
+            animation: openBox 3s ease-in-out forwards;
+        }
+
+        @keyframes openBox {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% {
+                transform: scale(1);
+                background: url('https://lh5.googleusercontent.com/d/15DTj4SdzmCoV2efJ9ucvzifojAk-ajkC') no-repeat center center;
+                background-size: contain;
+            }
+        }
+
+        .image-gallery {
+            display: none;
+            transition: transform 0.5s ease;
+        }
+
+        .image-gallery img {
+            min-width: 100%;
+            height: 100%;
+            object-fit: contain;/* รักษาสัดส่วนของภาพ */
+        }
+        .videoContainer {
+            width: 300px;
+            height: 500px;
+            margin: 20px auto;
+            display: none; /* ซ่อนวิดีโอเริ่มต้น */
+            border: none; /* ไม่มีขอบ */
+        }
+
+    </style>
+</head>
+<body>
+    <div id="lightbox" class="lightbox">
+        <img id="lightbox-img" src="" alt="Expanded Image">
+    </div>
+    <div id="lightbox1" class="lightbox1">
+        <img id="lightbox-img1" src="" alt="Expanded Image1">
+    </div>
+    <div class="container">
+        <h1>สุขสันต์🎁<br>วันเกิด🎉</h1>
+        <div class="name">GUN 🎂</div>
+        <div class="image-container">
+            <button class="nav-button left" id="prevButton">‹</button>
+            <button class="nav-button right" id="nextButton">›</button>
+            <div class="image-wrapper" id="imageWrapper">
+                <img src="https://cdn.discordapp.com/attachments/1297236904240087060/1297238091471261757/IMG_7011.jpg?ex=6719cfde&is=67187e5e&hm=59276414d21a332fd1760a810e84ea7adc6c1db2eb13b3d341894de664d06f4e&" alt="Image 1">
+                <img src="https://cdn.discordapp.com/attachments/1297236904240087060/1297238090783391847/IMG_7014.jpg?ex=6719cfde&is=67187e5e&hm=6b8f8f8371b550c2c8a6ea0cddb5ca826b96dec73b3e047a24d233efc8fb117c&" alt="Image 2">
+                <img src="https://cdn.discordapp.com/attachments/1297236904240087060/1297239804320157828/IMG_7215.jpg?ex=6719d176&is=67187ff6&hm=414634befd71592ca4a882336ff8324b4765afca2ad2ed3687844a2cde5bd604&" alt="Image 3">
+                <img src="https://cdn.discordapp.com/attachments/1297236904240087060/1297240711929925632/IMG_4843.jpg?ex=6719d24f&is=671880cf&hm=1e0ef00e27ec12b7d2876ed38667cd6d911e9f9873e681dcb77fc93fa920cbef&" alt="Image 4">
+                <img src="https://cdn.discordapp.com/attachments/1297236904240087060/1297891653574459392/IMG_4400.jpg?ex=671a364b&is=6718e4cb&hm=dad57c598bd223e7587b56e2d7487c6b3062e543f86fb6974080468ab86757b8&" alt="Image 5">
+            </div>
+        </div>
+
+        <!-- Audio Player -->
+        <div class="audio-container"> 
+            <span class="audio-title" id="audioTitle">สุขสันต์วันเกิด</span>
+            <audio id="audioPlayer" controls>
+                <source src="https://cdn.discordapp.com/attachments/1297236904240087060/1297246006190014484/b3438f8b37b64107.mp3?ex=671885bd&is=6717343d&hm=6b9a286c1e017b49b8f3874dec1960b0600d9d39e2e3d24d81cca0df28992953&" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <span class="audio-time" id="audioTime">00:00</span>
+        </div>
+        <div class="message-box">
+            <p>วันนี้เป็นวันอารายยยน้าาาาา😊 Happy Birth Day kub มัมมี๊กันต์ โตขึ้นอีกปีแล้วนะคนเก่งของหนู เทอเติบโตมาได้อย่างดีเลยนะ♡ <br><br>วันนี้ เด็กน้อยคนนี้จะมาอวยพรวันเกิดให้เทอนะงับมัมมี๊🎂🎉 
+                หนูขอให้เทอมีแต่ความสุขมากๆ ได้กินของอร่อยๆเยอะๆ นอนหลับฝันดีทุกคืน สุขภาพร่างกายแข็งแรงๆ และไม่เจ็บไม่ปวย🙏 <br><br>คิดสิ่งใดขอให้สมปราถนา หน้าที่การงานไปได้ดี และได้ทำในสิ่งที่เทอวาดฝันไว้
+                และ หนูจะคอยซัพพอร์ตเทออยู่ตรงนี้เสมอนะงับบบบ😊🎊🎁🎂🎉</p>
+        </div>
+
+        <!-- Input for Name -->
+        <div class="memories-zone">Memories Zone 📸</div>
+        <div class="namegun-zone">ใส่ชื่อผู้รับของขวัญ</div>
+        <div class="input-container"> 
+            <label for="nameInput1"></label>
+            <input type="text" id="nameInput1" class="input-box" maxlength="1" placeholder="G">
+            
+            <label for="nameInput2"></label>
+            <input type="text" id="nameInput2" class="input-box" maxlength="1" placeholder="U">
+            
+            <label for="nameInput3"></label>
+            <input type="text" id="nameInput3" class="input-box" maxlength="1" placeholder="N">
+        </div>
+
+        <!-- Message Box for GUN -->
+        <div class="special-message" id="specialMessage">
+            <div class="message-box">
+                <p>แด่เทอคนที่มีรอยยิ้มที่น่ารักสดใสที่สุดในโลก😊😳😙♡ หนูขอให้เทอเป็นคนที่น่ารักสดใสแบบนี้ตลอดไปเลย ขอให้ชีวิตเทอมีแต่รอยยิ้ม ไม่มีเรื่องต้องให้คิดมากบ่อยๆ <br><br>ขอให้งานไม่หนักมากมีเวลาให้ตัวเองได้พักผ่อนเยอะๆ 
+                    ไม่นอนดึก กินข้าวให้ครบทุกมื้อด้วยนะคะ ดูแลสุขภาพตัวเองด้วยนะ🥺<br><br> ขอให้เจอแต่คนดีๆรายล้อมเลย ไม่ว่าจะเจอปัญหาหรืออุปสรรคอะไร หนูขอให้ก้าวข้ามผ่านไปให้ได้นะงับ✌️ เด็กน้อยคนนี้จะคอยอวยพรและยินดีกับทุกการเติบโตของเทอเสมอนะคะ😜<br><br>
+                    ขอให้เทอมีแต่เรื่องที่ทำให้ยิ้มได้เยอะๆไปเลย หนูอยากเห็นรอยยิ้มของเทอเยอะๆเลยยยยยย😊 ละสุดท้าย หนูขอให้เทอไม่ปวดหลังนะ🙏🤭🎁♡ <br><br>สุขสันต์วันเกิดอีกครังนะคะ🎂เจ้าของตายิ้มที่น่ารักที่สุดในโลก😊 จากน้องปันนะงับ💗💙
+            </div>
+            <br><div class="namegun-zone1">เปิดของขวัญปีนี้เลย🎁</div><br>
+            <div class="gift-box" id="giftBox" onclick="openGift()"></div>
+            <div id="message-box1" class="message-box1">
+                <p>ความสดใสของ เจ้าตายิ้มที่น่ารักที่สุดในโลก😳💙💗😊</p>
+            </div>
+                <!-- เพิ่ม div ของ imageGallery -->
+            <div class="image-container1">
+                <button class="nav-button left1" id="prevButton1">‹</button>
+                <button class="nav-button right1" id="nextButton1">›</button>
+                <div class="image-gallery" id="imageGallery">
+                    <img src="" alt="Image 1">
+                    <img src="" alt="Image 2">
+                    <img src="" alt="Image 3">
+                    <img src="" alt="Image 4">
+                    <img src="" alt="Image 5">
+                    <img src="" alt="Image 6">
+                    <img src="" alt="Image 7">
+                    <img src="" alt="Image 8">
+                    <img src="" alt="Image 9">
+                    <img src="" alt="Image 10">
+                </div>
+            </div>
+            <div id="videoContainer" class="videoContainer">
+                <iframe src="https://drive.google.com/file/d/1tj3mQab7sJTqIHYctLciMBSjhTw9cM75/view?usp=sharing" width="300" height="500" allow="autoplay"></iframe>
+            </div> 
+            <div id="memories-zone1" class="memories-zone1">
+                <p>Kanthicha<br>Termkhuntod<br>GUN💕</p>
+            </div>           
+        </div>
+
+    
+    </div>
+
+
+    <script>
+        const nameInput1 = document.getElementById('nameInput1');
+        const nameInput2 = document.getElementById('nameInput2');
+        const nameInput3 = document.getElementById('nameInput3');
+        const specialMessage = document.getElementById('specialMessage');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.image-wrapper img');
+        const images1 = document.querySelectorAll('.image-gallery img');
+        const message = document.getElementById('message-box1');
+        const message1 = document.getElementById('memories-zone1'); 
+        const videoContainer = document.getElementById('videoContainer');       
+
+        images.forEach(image => {
+            image.addEventListener('click', () => {
+                lightbox.style.display = 'flex';
+                lightboxImg.src = image.src;
+            });
+        });
+
+    // Function to close the lightbox when clicked outside the image
+        lightbox.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
+
+        images1.forEach(image1 => {
+            image1.addEventListener('click', () => {
+                lightbox.style.display = 'flex';
+                lightboxImg.src = image1.src;
+            });
+        });
+
+    // Function to close the lightbox when clicked outside the image
+        lightbox1.addEventListener('click', () => {
+            lightbox1.style.display = 'none';
+        });
+            
+        // Function to check name and show special message
+        function checkName() {
+            const name = (nameInput1.value + nameInput2.value + nameInput3.value).toUpperCase();
+            if (name === 'GUN') {
+                specialMessage.style.display = 'block';
+            } else {
+                specialMessage.style.display = 'none';
+            }
+        }
+
+        // Add event listeners for input fields
+        nameInput1.addEventListener('input', function() {
+            nameInput1.value = nameInput1.value.toUpperCase();
+            checkName();
+            if (nameInput1.value.length === 1) { // ถ้าความยาวเป็น 1 จะเลื่อนไปที่ช่องถัดไป
+            nameInput2.focus();
+            }
+        });
+        nameInput2.addEventListener('input', function() {
+            nameInput2.value = nameInput2.value.toUpperCase();
+            checkName();
+            if (nameInput2.value.length === 1) { // ถ้าความยาวเป็น 1 จะเลื่อนไปที่ช่องถัดไป
+            nameInput3.focus();
+            }
+        });
+        nameInput3.addEventListener('input', function() {
+            nameInput3.value = nameInput3.value.toUpperCase();
+            checkName();
+        });
+        // Image carousel
+        const giftBox = document.getElementById('giftBox');
+        giftBox.addEventListener('click', function() {
+            // เปลี่ยนภาพเป็น GIF ก่อนที่ animation จะเริ่ม
+            giftBox.style.backgroundImage = "url('https://cdn.discordapp.com/attachments/1297236904240087060/1297986115608903700/love-you.gif?ex=6717eb45&is=671699c5&hm=250d7451dd380ec914743790abe7cdc138630ad267885f2f24093616b117b0d8&')";
+            giftBox.classList.add('opening');
+        });
+
+        
+        let currentIndex = 0;
+        let currentIndex1 = 0;
+
+
+        document.getElementById('nextButton').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('imageWrapper').style.transform = `translateX(-${currentIndex * 100}%)`;
+        });
+
+        document.getElementById('prevButton').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById('imageWrapper').style.transform = `translateX(-${currentIndex * 100}%)`;
+        });
+        document.getElementById('nextButton1').addEventListener('click', () => {
+            currentIndex1 = (currentIndex1 + 1) % images1.length;
+            document.getElementById('imageGallery').style.transform = `translateX(-${currentIndex1 * 100}%)`;
+        });
+        document.getElementById('prevButton1').addEventListener('click', () => {
+            currentIndex1 = (currentIndex1 - 1 + images1.length) % images1.length;
+            document.getElementById('imageGallery').style.transform = `translateX(-${currentIndex1 * 100}%)`;
+        });
+        function openGift() {
+            const giftBox = document.getElementById('giftBox');
+            const imageGallery = document.getElementById('imageGallery');
+
+            // เพิ่ม class เพื่อเริ่มอนิเมชั่นเปิดกล่อง
+            giftBox.classList.add('opening');
+
+            // แสดงรูปภาพหลังจากอนิเมชั่นเสร็จ
+            setTimeout(function() {
+                imageGallery.style.display = 'flex';
+                prevButton1.style.display = "block";
+                nextButton1.style.display = "block";
+                giftBox.style.display = 'none'; 
+                videoContainer.style.display = 'block';
+                message.style.display = 'flex';
+                message1.style.display = 'flex';
+            }, 3000); // ปรับเวลาให้ตรงกับระยะเวลาอนิเมชั่น
+        }
+    </script>
+</body>
+</html>
